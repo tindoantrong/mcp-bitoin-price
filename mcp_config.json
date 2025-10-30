@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "bitcoin-price": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["bitcoin_price.py"]
+    }
+  }
+}
