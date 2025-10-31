@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "bitcoin-price": {
+    "local-stdio-crypto": {
       "type": "stdio",
       "command": "python",
-      "args": ["bitcoin_price.py"]
+      "args": ["-m", "crypto_price"]
     }
   }
 }
