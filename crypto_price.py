@@ -1,4 +1,25 @@
 # crypto_price.py
+"""
+MCP Server for Cryptocurrency Price Information
+
+This MCP server provides real-time cryptocurrency price data from Binance exchange.
+It can answer questions like:
+- "giá bitcoin?" / "what is bitcoin price?"
+- "giá ethereum hiện tại?" / "current ethereum price?"
+- "bao nhiêu tiền 1 BTC?" / "how much is 1 BTC?"
+- "cho tôi giá của BTC, ETH và ADA" / "show me prices of BTC, ETH and ADA"
+
+The server automatically converts cryptocurrency names to symbols:
+- 'bitcoin' → 'BTC'
+- 'ethereum' → 'ETH'
+- 'cardano' → 'ADA'
+
+Tools available:
+1. get_crypto_price(symbol) - Get price for a single cryptocurrency
+2. get_multiple_prices(symbols) - Get prices for multiple cryptocurrencies
+
+All prices are returned in USDT (Tether USD).
+"""
 from mcp.server.fastmcp import FastMCP
 import sys
 import logging
@@ -18,6 +39,45 @@ mcp = FastMCP("CryptoPrice")
 # Binance API endpoint
 BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/price"
 
+# Mapping Vietnamese/English names to symbols for better understanding
+CRYPTO_NAME_TO_SYMBOL = {
+    'bitcoin': 'BTC',
+    'btc': 'BTC',
+    'ethereum': 'ETH',
+    'eth': 'ETH',
+    'binance': 'BNB',
+    'bnb': 'BNB',
+    'cardano': 'ADA',
+    'ada': 'ADA',
+    'ripple': 'XRP',
+    'xrp': 'XRP',
+    'solana': 'SOL',
+    'sol': 'SOL',
+    'dogecoin': 'DOGE',
+    'doge': 'DOGE',
+    'polkadot': 'DOT',
+    'dot': 'DOT',
+    'avalanche': 'AVAX',
+    'avax': 'AVAX',
+    'shiba': 'SHIB',
+    'shib': 'SHIB',
+    'matic': 'MATIC',
+    'polygon': 'MATIC',
+    'litecoin': 'LTC',
+    'ltc': 'LTC',
+}
+
+def normalize_symbol(symbol: str) -> str:
+    """Convert cryptocurrency name to standard symbol.
+    
+    Examples:
+        'bitcoin' → 'BTC'
+        'ethereum' → 'ETH'
+        'BTC' → 'BTC'
+    """
+    symbol_lower = symbol.lower().strip()
+    return CRYPTO_NAME_TO_SYMBOL.get(symbol_lower, symbol.upper().strip())
+
 def format_price(price: float) -> str:
     """Format price by removing trailing zeros."""
     if price >= 1:
@@ -29,21 +89,47 @@ def format_price(price: float) -> str:
 
 @mcp.tool()
 def get_crypto_price(symbol: str) -> dict:
-    """Get current cryptocurrency price from Binance.
+    """Get current real-time cryptocurrency price from Binance exchange.
+    
+    Use this tool when user asks about cryptocurrency prices, such as:
+    - "giá bitcoin?" / "bitcoin price?" → use symbol='BTC'
+    - "giá ethereum?" / "ethereum price?" → use symbol='ETH'
+    - "giá ada?" / "cardano price?" → use symbol='ADA'
+    - "bao nhiêu tiền 1 bitcoin?" → use symbol='BTC'
+    - "giá hiện tại của BTC?" → use symbol='BTC'
+    
+    Common cryptocurrency symbols:
+    - Bitcoin: BTC
+    - Ethereum: ETH
+    - Binance Coin: BNB
+    - Cardano: ADA
+    - Ripple: XRP
+    - Solana: SOL
+    - Dogecoin: DOGE
+    - Polkadot: DOT
     
     Args:
-        symbol: Trading pair symbol (e.g., 'BTC', 'ETH', 'ADA'). 
-                Will automatically append 'USDT' to create the pair.
-                Examples: 'BTC' → 'BTCUSDT', 'ADA' → 'ADAUSDT'
+        symbol: Cryptocurrency symbol (e.g., 'BTC', 'ETH', 'ADA'). 
+                Just provide the base currency, USDT will be added automatically.
+                Case insensitive - 'btc', 'BTC', 'Bitcoin' all work.
     
     Returns:
-        Dictionary with price information or error message.
+        Dictionary containing:
+        - success: True if price retrieved successfully
+        - symbol: Trading pair used (e.g., 'BTCUSDT')
+        - price: Current price in USDT (numeric)
+        - currency: Always 'USDT'
+        - message: Human-readable price message
+    
+    Examples:
+        get_crypto_price('BTC') → Bitcoin price in USDT
+        get_crypto_price('ethereum') → Ethereum price in USDT
     """
     try:
-        # Normalize symbol: uppercase and add USDT if not present
-        symbol = symbol.upper().strip()
+        # Normalize symbol: convert names like 'bitcoin' to 'BTC'
+        symbol = normalize_symbol(symbol)
         
-        # If user only provides base currency (e.g., 'ADA'), add 'USDT'
+        # If user only provides base currency (e.g., 'BTC'), add 'USDT'
         if not symbol.endswith('USDT'):
             trading_pair = f"{symbol}USDT"
         else:
@@ -114,13 +200,29 @@ def get_crypto_price(symbol: str) -> dict:
 
 @mcp.tool()
 def get_multiple_prices(symbols: str) -> dict:
-    """Get prices for multiple cryptocurrencies at once.
+    """Get prices for multiple cryptocurrencies at once from Binance.
+    
+    Use this tool when user asks for multiple prices in one request, such as:
+    - "giá bitcoin và ethereum?" → symbols='BTC,ETH'
+    - "cho tôi giá của BTC, ETH và ADA" → symbols='BTC,ETH,ADA'
+    - "bitcoin, ethereum, cardano bao nhiêu?" → symbols='BTC,ETH,ADA'
+    - "list prices of top 5 coins" → symbols='BTC,ETH,BNB,ADA,XRP'
     
     Args:
-        symbols: Comma-separated list of symbols (e.g., 'BTC,ETH,ADA,BNB')
+        symbols: Comma-separated list of cryptocurrency symbols.
+                 Examples: 'BTC,ETH,ADA', 'bitcoin,ethereum,cardano'
+                 Case insensitive, spaces are trimmed automatically.
     
     Returns:
-        Dictionary with prices for all requested symbols.
+        Dictionary containing:
+        - success: True if all prices retrieved successfully
+        - prices: Object mapping symbols to their prices (e.g., {'BTCUSDT': '50000'})
+        - errors: List of error messages if any symbol failed
+        - count: Number of successful price retrievals
+    
+    Examples:
+        get_multiple_prices('BTC,ETH') → Prices for Bitcoin and Ethereum
+        get_multiple_prices('bitcoin, ethereum, ada') → Prices for 3 coins
     """
     try:
         # Parse symbols
