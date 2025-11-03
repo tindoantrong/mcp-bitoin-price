@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "local-stdio-crypto": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["-m", "crypto_price"]
-    }
-  }
-}
