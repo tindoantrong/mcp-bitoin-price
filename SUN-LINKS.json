@@ -1,0 +1,58 @@
+[
+	{
+		"name": "AKSUN_Server disk check",
+		"url": "https://docs.google.com/spreadsheets/d/1tDiOTxK_iSjLGsqgvXjCBBLHvj9tb8zN4TE6lYmlRDc/edit?usp=sharing",
+		"description": "Dùng để kiểm tra dung lượng ổ cứng của các server CMS honban"
+	},
+	{
+		"name": "AK Projectname List",
+		"url": "https://docs.google.com/spreadsheets/d/1_RjEhF8oYw7G9WcK82LbXdr_c_Bug6gA0J988Az0L08/edit?usp=sharing",
+		"description": "Liệt kê các các project name đang làm việc với AK"
+	},
+	{
+		"name": "BP_LIXD-924_EstimateNewLIXILServer",
+		"url": "https://docs.google.com/spreadsheets/d/1m-QqfNh4qCBpEAXCo_BvBazabUwwxNt--9VUQYCEQF4/edit?gid=0#gid=0",
+		"description": "Issue BP_LIXD-924 - Estimate công việc setup server mới cho LIXIL và move data từ server cũ sang server mới"
+	},
+	{
+		"name": "BP_LIXD-925_サーバー再起動_Server List",
+		"url": "https://docs.google.com/spreadsheets/d/1GEaixHEru-rfsMvHYWlMOEcsvMpbJN9DH6uo_fVt2QY/edit?gid=114246460",
+		"description": "Issue BP_LIXD-925"
+	},
+	{
+		"name": "Servers Billing Period",
+		"url": "https://docs.google.com/spreadsheets/d/1jkwhSnuiwy1u7sXjFssXWh2oAgdtVFxadYVQgHk8fvI/edit?gid=0#gid=0",
+		"description": "Thông tin về kỳ thanh toán các server"
+	},
+	{
+		"name": "KOI_FullScan",
+		"url": "https://docs.google.com/spreadsheets/d/1Z5cWmU9tkCeRdqFZlApt1efh2x-MZ3RuCEO1jt3D91g/edit?gid=1971294961",
+		"description": "Danh sách các máy tính trong công ty thực hiện quét virus định kỳ hàng tháng"
+	},
+	{
+		"name": "Pimlus Security",
+		"url": "https://docs.google.com/spreadsheets/d/1vvbVFMQPToBluM0JAO9kd1RbxCFfal7Bzvn-RLdz3QI/edit?gid=1838219544",
+		"description": "Issue BP_2020CMS-343 - Report về vấn đề bảo mật của Pimlus"
+	},
+	{
+		"name": "Sun SV",
+		"url": "https://docs.google.com/spreadsheets/d/1mI_6tjjQxaJtxJE2qax9M4UM1dk8uCaHUEa7lRLi5Uk/edit?usp=sharing",
+		"description": "Danh sách các server của công ty"
+	},
+	{
+		"name": "AI Usecases",
+		"url": "https://docs.google.com/spreadsheets/d/1AO_S6NLBMzoE9qQG-926UmkLpHrJZRori5PTLIZsSqE/edit?gid=1688525244#gid=1688525244",
+		"description": "Report về việc nghiên cứu AI (ChatGPT, Codex, Cursor, Amazone Q, ...)"
+	
+	},
+	{
+		"name": "IP List",
+		"url": "https://docs.google.com/spreadsheets/d/1HXvPx31BeATYGoBVtzHRaIVfmRNq4SsRBwDL1aRNfgA/edit?usp=sharing",
+		"description": "Danh sách các thiết bị sử dụng IP tĩnh trong công ty"
+	},
+	{
+		"name": "Meeting_dev",
+		"url": "https://docs.google.com/spreadsheets/d/1os02Aym0wLPkavkMaOgDPzz8PInahC0OLRgM06ut02Q/edit?pli=1&gid=1778475355#gid=1778475355",
+		"description": "Biên bản cuộc họp nhóm dev vào thứ 4 hàng tuần"
+	}
+]
